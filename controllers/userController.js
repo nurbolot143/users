@@ -59,4 +59,19 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, getUserById, updateUser, addUser };
+const removeUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await db.query(queries.removeAllBooks, [id]);
+
+    await db.query(queries.removeUser, [id]);
+
+    res.status(200).json({ message: "User deleted Successfully!" });
+  } catch (err) {
+    console.warn(err);
+    res.status(500).json({ message: "Failed to remove user!" });
+  }
+};
+
+module.exports = { getUsers, getUserById, updateUser, addUser, removeUser };
