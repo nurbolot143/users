@@ -36,9 +36,9 @@ const addBook = async (req, res) => {
       return res.status(500).json({ message: "Invalid values" });
     }
 
-    await db.query(queries.addBook, [title, author]);
+    const book = await db.query(queries.addBook, [title, author]);
 
-    res.status(200).json({ message: "Book created Successfully!" });
+    res.status(200).json(book.rows);
   } catch (err) {
     console.warn(err);
     res.status(500).json({ message: "Failed to add book!" });
